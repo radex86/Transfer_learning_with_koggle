@@ -25,27 +25,28 @@ import os, sys
 from glob import glob
 
 from google.colab import drive
-drive.mount('/XXXXX') #'/XXX' is your google drive account directory # please modify it accodingly 
+drive.mount('/XXX') #'/XXX' is your google drive account directory # please modify it accodingly 
 
 
- #Import OS for navigation and environment set up
+ #Import os module for navigation and environment setup
 import os
 # Check current location, '/content' is the Colab virtual machine
 os.getcwd()
 # Enable the Kaggle environment, use the path to the directory your Kaggle API JSON is stored in
-os.environ['KAGGLE_CONFIG_DIR'] = '/XXXXXXX/transferLearning/kaggle' #'/XXX' is your google drive account directory # please modify it accodingly
+# you must download your Kaggle.jason file and store it in the corresponding location
+os.environ['KAGGLE_CONFIG_DIR'] = '/XXX/transferLearning/kaggle' #'/XXX' is your google drive account directory # please modify it accodingly
 
 # do it once, if you didn't install kaggle before
 #!pip install kaggle 
 
-
+#checking the directory to store the dataset
 os.chdir('/XXXX/transferLearning/kaggle/') #'/XXX' is your google drive account directory # please modify it accodingly
 
 # You can choose any dataset (in this example it is the fruits-360)
 !kaggle datasets download -d moltean/fruits
 !unzip -qq -o fruits.zip
 
-# this example extract 3 classes from the fruit-360 dataset you may choose to take more according to your work
+# this example extract 3 classes from the fruit-360 dataset, you may choose to take more according to your work
 !mkdir /XXX/transferLearning/fruitz  #'/XXX' is your google drive account directory # please modify it accodingly
 !mkdir /XXX/transferLearning/fruitz/train
 !mkdir /XXX/transferLearning/ruitz/test
@@ -85,7 +86,7 @@ y_max, y_min = np.max(y), np.min(y)
 
 print(x_max,'X', x_min, ": ", y_max ,'X', y_min)
 
-# decided to use 200 X 200
+# decided to use 100 X 100
 IMAGE_SIZE = [100, 100]
 
 # using the glob lib to get the files info
@@ -120,7 +121,7 @@ VGGNet = VGG16(
     include_top=False
 )
 
-# do not train the weights
+# do not re-train the VGGNet weights
 VGGNet.trainable=False
 
 # FNN structure
@@ -179,12 +180,9 @@ r = model.fit(
 plt.plot(r.history['loss'], label='train loss')
 plt.plot(r.history['val_loss'], label='val loss')
 plt.legend()
-plt.show()
 
 
 # accuracies
 plt.plot(r.history['accuracy'], label='train acc')
 plt.plot(r.history['val_accuracy'], label='val acc')
 plt.legend()
-plt.show()
-
